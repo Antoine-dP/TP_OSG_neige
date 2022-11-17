@@ -90,18 +90,19 @@ int main()
 
 
 	///* Importation */
-	//// Create transformation node
-	//osg::ref_ptr<osg::MatrixTransform> terrainScaleMAT(new osg::MatrixTransform);
-	//// Scale matrix
-	//osg::Matrix terrainScaleMatrix;
-	//terrainScaleMatrix.makeScale(osg::Vec3f(1.0f, 1.0f, 1.0f));
-	////Loading the terrain node
-	////const std::string filename = "C:\\Users\\Eleve\\Documents\\TP\\ImagRV\\OpenSceneGraph\\OSG_data\\OSG_data\\Terrain2.3ds";
-	//const std::string filename = "C:\\Users\\Eleve\\Documents\\TP\\ImagRV\\OpenSceneGraph\\OSG_data\\OSG_data\\cow.osg";
-	//osg::ref_ptr<osg::Node> terrainnode(osgDB::readNodeFile(filename));
-	////Set transformation node parameters
-	//terrainScaleMAT->addChild(terrainnode.get());
-	//terrainScaleMAT->setMatrix(terrainScaleMatrix);
+	// Create transformation node
+	osg::ref_ptr<osg::MatrixTransform> cowScaleMAT(new osg::MatrixTransform);
+	// Scale matrix
+	osg::Matrix cowScaleMatrix;
+	cowScaleMatrix.makeScale(osg::Vec3f(0.1f, 0.1f, 0.1f));
+	//Loading the terrain node
+	//const std::string filename = "C:\\Users\\Eleve\\Documents\\TP\\ImagRV\\OpenSceneGraph\\OSG_data\\OSG_data\\Terrain2.3ds";
+	const std::string filename = "cow.osg";
+	osg::ref_ptr<osg::Node> cownode(osgDB::readNodeFile(filename));
+	//Set transformation node parameters
+	cowScaleMAT->addChild(cownode.get());
+	cowScaleMAT->setMatrix(cowScaleMatrix);
+
 
 /// PAT
 	std::vector<osg::ref_ptr<osg::PositionAttitudeTransform>> patList;
