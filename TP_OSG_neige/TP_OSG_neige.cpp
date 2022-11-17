@@ -103,11 +103,11 @@ int main()
 	cowScaleMAT->addChild(cownode.get());
 	cowScaleMAT->setMatrix(cowScaleMatrix);
 
-
 /// PAT
 	std::vector<osg::ref_ptr<osg::PositionAttitudeTransform>> patList;
 	std::vector<osg::ref_ptr<osg::PositionAttitudeTransform>> patAnimList;
 	std::vector<osg::Vec3f> posTransList;
+	
 	
 	for (int i = 0; i < numSnowflakes; i++)
 	{
@@ -129,8 +129,8 @@ int main()
 	osg::Vec3f objectPosTrans0 = osg::Vec3f(0, 0, 3);
 	osg::ref_ptr<osg::PositionAttitudeTransform> PAT_Ground(new osg::PositionAttitudeTransform);
 	osg::Vec3f groundPosTrans = osg::Vec3f(0, 0, 0);
-	osg::ref_ptr<osg::PositionAttitudeTransform> PAT_Sphere1(new osg::PositionAttitudeTransform);
-	osg::Vec3f spherePosTrans1 = osg::Vec3f(0, 0, 2);
+	osg::ref_ptr<osg::PositionAttitudeTransform> PAT_Cow(new osg::PositionAttitudeTransform);
+	osg::Vec3f cowPosTrans1 = osg::Vec3f(0, 0, 5);
 
 
 
@@ -152,10 +152,10 @@ int main()
 	// Définition du mode de boucle 
 	spherePath->setLoopMode(osg::AnimationPath::LOOP);
 	// Création de point de contrôle
-	osg::AnimationPath::ControlPoint c0(osg::Vec3(-0.5, -0.5, 0));
-	osg::AnimationPath::ControlPoint c1(osg::Vec3(-0.5, 0.5, 0));
-	osg::AnimationPath::ControlPoint c2(osg::Vec3(0.5, 0.5, 0));
-	osg::AnimationPath::ControlPoint c3(osg::Vec3(0.5, -0.5, 0));
+	osg::AnimationPath::ControlPoint c0(osg::Vec3(-2.5, -2.5, 0.4));
+	osg::AnimationPath::ControlPoint c1(osg::Vec3(-2.5, 2.5, 0.4));
+	osg::AnimationPath::ControlPoint c2(osg::Vec3(2.5, 2.5, 0.4));
+	osg::AnimationPath::ControlPoint c3(osg::Vec3(2.5, -2.5, 0.4));
 	spherePath->insert(0.0f, c0);
 	spherePath->insert(1.0f, c1);
 	spherePath->insert(2.0f, c2);
@@ -220,8 +220,8 @@ int main()
 	PAT_0->setPosition(objectPosTrans0);
 	PAT_Ground->addChild(geodeGround.get());
 	PAT_Ground->setPosition(groundPosTrans);
-	PAT_Sphere1->addChild(geodeSphere.get());
-	PAT_Sphere1->setPosition(spherePosTrans1);
+	PAT_Cow->addChild(cowScaleMAT.get());
+	PAT_Cow->setPosition(cowPosTrans1);
 
 	for (int i = 0; i < patList.size(); i++)
 	{
@@ -239,7 +239,7 @@ int main()
 	// Add the geode to the scene graph root (Group)
 	//root->addChild(PAT_0.get());
 	root->addChild(PAT_Ground.get());
-	//root->addChild(PAT_Sphere1.get());
+	root->addChild(PAT_Cow.get());
 
 	for (int i = 0; i < patList.size(); i++)
 	{
@@ -281,14 +281,14 @@ int main()
 
 	osg::ref_ptr<osg::AnimationPathCallback> rAniCallback = new osg::AnimationPathCallback(spherePath.get());
 	//osg::ref_ptr<osg::Callback> GravityCallback = new osg::Callback();
-	//PAT_Sphere1->setUpdateCallback(rAniCallback.get());
-	PAT_Sphere1->setUpdateCallback(new GravityCallback());
+	//PAT_Cow->setUpdateCallback(rAniCallback.get());
+	PAT_Cow->setUpdateCallback(new GravityCallback());
 
 	if (fallType_isConstSpeed) {
 		for (int i = 0; i < patList.size(); i++)
 		{
 			patList[i]->setUpdateCallback(new ConstSpeedFallingCallback());
-			patAnimList[i]->setUpdateCallback(rAniCallback.get());
+			PAT_Cow->setUpdateCallback(rAniCallback.get());
 		}
 	}
 	else {
